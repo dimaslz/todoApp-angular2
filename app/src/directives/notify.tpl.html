@@ -1,0 +1,6 @@
+<div class="box {{type}}" [ngClass]="{'animate': notify}" (mouseenter)="clear()" (click)="notify = !notify">
+    <!--<img src="assets/images/close.svg" class="close" alt="" (click)="notify = !notify">-->
+    <div class="content">
+        {{ message }}
+    </div>
+</div>

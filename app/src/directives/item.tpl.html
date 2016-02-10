@@ -1,0 +1,10 @@
+<li *ngFor="#item of tasks">
+    <div [ngClass]="{ 'removing': removing }">
+        <span [contentEditable]="item.editable">{{ item.name }}</span>
+        
+        <button type="button" (click)="updateStatus(item, 'todo')" *ngIf="typeList != 'todo'">todo</button>
+        <button type="button" (click)="updateStatus(item, 'started')" *ngIf="typeList != 'started'">start</button>
+        <button type="button" (click)="updateStatus(item, 'done')" *ngIf="typeList != 'done'">done</button>
+        <button type="button" (click)="delete(item)">delete</button>
+    </div>
+</li>

@@ -1,0 +1,10 @@
+<ul class="list">
+    <!--<li *ngFor="#todo of tasks | type:status">-->
+        <todo-item
+            [type]="status" 
+            [tasks]="tasks"
+            [item]="todo"
+            [typeList]="typeList"
+            ></todo-item>
+    <!--</li>-->
+</ul>
