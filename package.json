@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp dev && bin/server"
   },
+  "engine": "node 0.4.x",
   "keywords": [
     "node",
     "api",
