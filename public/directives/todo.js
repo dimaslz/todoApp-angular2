@@ -29,10 +29,20 @@ var Todo = (function () {
             _this.componentTodos = uploadedTodos;
         });
         this.todoService.getList('todo');
+        this.socket = io();
+        this.socket.on("chat_message", function (msg) {
+            console.log('socket message_>     ', msg);
+            _this.todoService.getList('todo');
+        });
     };
     ;
+    Todo.prototype.send = function (message) {
+        console.log('chkic');
+        this.socket.emit("chat_message", message);
+    };
     Todo.prototype.addItem = function () {
         this.todoService.addTask(this.taskInput);
+        this.socket.emit("chat_message", this.taskInput);
         this.taskInput = new task_1.Task("", "", "", "", new Date());
     };
     Todo.prototype.removeItem = function (id) {

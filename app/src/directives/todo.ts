@@ -7,6 +7,8 @@ import {Http, HTTP_BINDINGS,HTTP_PROVIDERS} from 'angular2/http';
 import {Notify} from '../directives/notify';
 import {Notification} from '../services/notify';
 
+declare var io: any;
+
 @Component({
     selector: 'todo',
     templateUrl: './directives/todo.tpl.html',
@@ -22,6 +24,8 @@ class Todo implements OnInit {
     taskInput:Task = new Task("", "", "", "", new Date());
     public typeList = 'todo';
     public componentTodos;
+    socket: any;
+    messages: Array<String>;
     
     ngOnInit() {
         this.todoService.todos$.subscribe(uploadedTodos => {
@@ -29,16 +33,34 @@ class Todo implements OnInit {
             this.componentTodos = uploadedTodos;
         });
         this.todoService.getList('todo');
+        this.socket = io();
+        this.socket.on("chat_message", (msg) => {
+            console.log('socket message_>     ', msg);
+            this.todoService.getList('todo');
+            // this.messages.push(msg);
+        });
+        
     }
     
     constructor(public todoService: TodoService, public notification: Notification) {
+        // this.socket = io();
+        // this.socket.on("chat_message", (msg) => {
+        //     console.log('socket message_>     ', msg);
+        //     // this.messages.push(msg);
+        // });
     };
+    
+    public send(message) {
+        console.log('chkic');
+        this.socket.emit("chat_message", message);
+    }
     
     /**
      * addItem
      */
     public addItem() {
         this.todoService.addTask(this.taskInput);
+        this.socket.emit("chat_message", this.taskInput);
         this.taskInput = new Task("", "", "", "", new Date());
     }
     
