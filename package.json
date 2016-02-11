@@ -1,5 +1,5 @@
 {
-  "name": "todo-app",
+  "name": "todo",
   "version": "1.0.0",
   "description": "First node api",
   "main": "index.js",
