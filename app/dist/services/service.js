@@ -14,7 +14,7 @@ var http_1 = require('angular2/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/share');
 require('rxjs/add/operator/map');
-var apiUrl = 'http://todo-node-api.dimaslz.io';
+var apiUrl = 'http://178.62.112.67:32778';
 var TodoService = (function () {
     function TodoService(http, notification) {
         var _this = this;

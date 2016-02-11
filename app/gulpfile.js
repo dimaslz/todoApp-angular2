@@ -5,11 +5,10 @@ var sourcemaps = require('gulp-sourcemaps');
 var merge = require('merge2');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync');
-var embedTemplates = require('gulp-angular-embed-templates');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var concat = require('gulp-concat');
-var ghPages = require('gulp-gh-pages');
+// var ghPages = require('gulp-gh-pages');
 var replace = require('gulp-replace');
 var del = require('del');
 

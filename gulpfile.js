@@ -11,7 +11,7 @@ var concat = require('gulp-concat');
 var replace = require('gulp-replace');
 var del = require('del');
 
-var tsProject = ts.createProject('./app/tsconfig.json', { typescript: require('typescript') });
+var tsProject = ts.createProject('tsconfig.json');
 
 function startBrowserSync() {
     browserSync({
@@ -28,15 +28,15 @@ function startBrowserSync() {
 }
 
 // Error reporting function
-function mapError(err) {
-    if (err.fileName) {
-        // Regular error
-        gUtil.log(chalk.red(err.name) + ': ' + chalk.yellow(err.fileName.replace(__dirname + '/src/js/', '')) + ': ' + 'Line ' + chalk.magenta(err.lineNumber) + ' & ' + 'Column ' + chalk.magenta(err.columnNumber || err.column) + ': ' + chalk.blue(err.description));
-    } else {
-        // Browserify error..
-        gUtil.log(chalk.red('Browserify ' + err.name) + ': ' + chalk.yellow(err.message));
-    }
-}
+// function mapError(err) {
+//     if (err.fileName) {
+//         // Regular error
+//         gUtil.log(chalk.red(err.name) + ': ' + chalk.yellow(err.fileName.replace(__dirname + '/src/js/', '')) + ': ' + 'Line ' + chalk.magenta(err.lineNumber) + ' & ' + 'Column ' + chalk.magenta(err.columnNumber || err.column) + ': ' + chalk.blue(err.description));
+//     } else {
+//         // Browserify error..
+//         gUtil.log(chalk.red('Browserify ' + err.name) + ': ' + chalk.yellow(err.message));
+//     }
+// }
 
 gulp.task('sass', function() {
 	return gulp.src('./app/sass/main.scss')
@@ -74,10 +74,12 @@ gulp.task('copy-external-modules', function() {
         'node_modules/angular2/bundles/angular2-polyfills.js',
         'node_modules/es6-shim/es6-shim.min.js',
         'node_modules/systemjs/dist/system.src.js',
+        'node_modules/systemjs/dist/system.js',
         'node_modules/rxjs/bundles/Rx.js',
         'node_modules/angular2/bundles/angular2.js',
         // 'node_modules/angular2/bundles/router.dev.js',
-        'node_modules/angular2/bundles/http.min.js'
+        'node_modules/angular2/bundles/http.min.js',
+        'node_modules/systemjs/dist/system-polyfills.js'
         ])
         .pipe(gulp.dest('public/lib'))
 });
@@ -89,13 +91,13 @@ gulp.task('copy-external-modules', function() {
 // });
 
 gulp.task('compile-ts', function() {
-  var tsResult = gulp.src(['./app/src/**/*.ts', '!node_modules/**/*.*', '!build/**/*.*'])
+  var tsResult = gulp.src(['app/src/**/*.ts', '!node_modules/**/*.*', '!build/**/*.*'])
                   .pipe(plumber())
                   .pipe(sourcemaps.init())
                   .pipe(ts(tsProject));
 
   return merge([ // Merge the two output streams, so this task is finished when the IO of both operations are done.
-      tsResult.dts.pipe(gulp.dest('dist/definitions')),
+      tsResult.dts.pipe(gulp.dest('pubic/definitions')),
       tsResult.js
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('public'))
@@ -103,7 +105,7 @@ gulp.task('compile-ts', function() {
 });
 
 gulp.task('compile-ts-min', function() {
-  var tsResult = gulp.src(['./src/**/*.ts', '!node_modules/**/*.*', '!build/**/*.*'])
+  var tsResult = gulp.src(['./app/src/**/*.ts', '!node_modules/**/*.*', '!build/**/*.*'])
                   .pipe(plumber())
                   .pipe(sourcemaps.init())
                   .pipe(ts(tsProject));
@@ -136,6 +138,7 @@ gulp.task('watch', ['copy-external-modules', 'compile-ts', 'templates', 'sass', 
     startBrowserSync();
     gulp.watch('./app/src/index.html', ['index']);
     gulp.watch('./app/src/directives/**/*.tpl.html', ['templates']).on('change', browserSync.reload);
+    gulp.watch('./app/src/**/*.ts', ['compile-ts']).on('change', browserSync.reload);
     gulp.watch('./app/sass/main.scss', ['sass']);
 });
 

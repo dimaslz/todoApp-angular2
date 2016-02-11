@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 
-var apiUrl = 'http://178.62.112.67:32778';
+var apiUrl = 'http://todo-node-api.dimaslz.io';
 // var apiUrl = 'http://localhost:8081';
 
 @Injectable()
