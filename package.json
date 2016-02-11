@@ -16,21 +16,15 @@
   "author": "Dimas López (aka dimaslz) <dimaslopezzurita@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.7.1",
     "express": "^4.13.4",
+    "mongoose": "^4.4.2",
+    "app-module-path": "^1.0.5",
+    "assert": "^1.3.0",
+    "mongoose-unique-validator": "^0.4.1",
     "nunjucks": "^2.3.0",
     "path": "^0.12.7",
-    "body-parser": "^1.14.2",
-    "consolidate": "^0.14.0",
-    "assert": "^1.3.0",
-    "angular2": "^2.0.0-beta.3",
-    "es6-promise": "^3.0.2",
-    "es6-shim": "^0.34.2",
-    "reflect-metadata": "^0.1.3",
-    "rxjs": "^5.0.0-beta.1",
-    "zone.js": "^0.5.11",
-    "systemjs": "^0.19.20",
-    "cors": "^2.7.1",
-    "app-module-path": "^1.0.5"
+    "body-parser": "^1.14.2"
   },
   "devDependencies": {
     "bootstrap-sass": "^3.3.6",
@@ -47,6 +41,22 @@
     "merge2": "^1.0.1",
     "typescript": "^1.7.5",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    
+    "express": "^4.13.4",
+    "nunjucks": "^2.3.0",
+    "path": "^0.12.7",
+    "body-parser": "^1.14.2",
+    "consolidate": "^0.14.0",
+    "assert": "^1.3.0",
+    "angular2": "^2.0.0-beta.3",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.34.2",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "^5.0.0-beta.1",
+    "zone.js": "^0.5.11",
+    "systemjs": "^0.19.20",
+    "cors": "^2.7.1",
+    "app-module-path": "^1.0.5"
   }
 }
