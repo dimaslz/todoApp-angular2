@@ -13,28 +13,34 @@ var Notify = (function () {
     function Notify(notification) {
         var _this = this;
         this.notification = notification;
+        this.notifications = [];
         this.timeout = null;
         this.notification.notify.subscribe(function (uploaded) {
-            console.log(uploaded);
             _this.setNotify(uploaded);
-            _this.notify = true;
-            _this.createTimeout();
         });
     }
     ;
     Notify.prototype.clear = function () {
         clearTimeout(this.timeout);
     };
-    Notify.prototype.createTimeout = function () {
+    Notify.prototype.createTimeout = function (notification) {
         var _this = this;
-        this.timeout = setTimeout(function () {
-            _this.notify = !_this.notify;
-        }, 2000);
+        var timeout = setTimeout(function () {
+            notification.notify = !notification.notify;
+            setTimeout(function () {
+                _this.notifications.shift();
+            }, 200);
+        }, 5000);
     };
     Notify.prototype.setNotify = function (obj) {
-        this.notify = obj.show;
-        this.type = obj.type;
-        this.message = obj.message;
+        obj.notify = obj.show;
+        obj.type = obj.type;
+        obj.message = obj.message;
+        this.notifications.push(obj);
+        this.createTimeout(obj);
+        this.printNotifications();
+    };
+    Notify.prototype.printNotifications = function () {
     };
     Notify = __decorate([
         core_1.Component({

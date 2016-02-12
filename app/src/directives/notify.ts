@@ -12,6 +12,11 @@ import {Notification} from "../services/notify";
 // })
 
 export class Notify{
+    private notifications = [
+        // {type: "success", message: "Task Added", show: true},
+        // {type: "success", message: "Task Added", show: true},
+        // {type: "success", message: "Task Added", show: true}
+    ];
     private notify: Boolean;
     private type:String;
     private message:String;
@@ -19,10 +24,7 @@ export class Notify{
     
     constructor (public notification: Notification) {
         this.notification.notify.subscribe(uploaded => {
-            console.log(uploaded);
             this.setNotify(uploaded);
-            this.notify = true;
-            this.createTimeout();
         });
     };
     
@@ -30,15 +32,28 @@ export class Notify{
         clearTimeout(this.timeout);
     }
     
-    private createTimeout() {
-        this.timeout = setTimeout(() => {
-            this.notify = !this.notify;
-        }, 2000);
+    private createTimeout(notification) {
+        var timeout = setTimeout(() => {
+            notification.notify = !notification.notify;
+            setTimeout(() => {
+                this.notifications.shift();
+            }, 200);
+        }, 5000);
     }
     
     private setNotify(obj) {
-        this.notify = obj.show;
-        this.type = obj.type;
-        this.message = obj.message;
+        obj.notify = obj.show;
+        obj.type = obj.type;
+        obj.message = obj.message;
+        
+        this.notifications.push(obj);
+        this.createTimeout(obj);
+        this.printNotifications();
+    }
+    
+    private printNotifications() {
+        // this.notifications.forEach((value, index) => {
+        //     console.log(value, index);
+        // });
     }
 }
