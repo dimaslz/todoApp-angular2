@@ -1,11 +1,16 @@
 <li *ngFor="#item of tasks">
-    <div [ngClass]="{ 'removing': removing }">
-        <span class="badged" [ngClass]="item.status"></span>
-        <span [contentEditable]="item.editable" class="title">{{ item.name }}</span>
+    <div [ngClass]="{ 'removing': removing }" class="row">
         
-        <button type="button" (click)="updateStatus(item, 'todo')" *ngIf="item.status != 'todo'">todo</button>
-        <button type="button" (click)="updateStatus(item, 'started')" *ngIf="item.status != 'started'">start</button>
-        <button type="button" (click)="updateStatus(item, 'done')" *ngIf="item.status != 'done'">done</button>
-        <button type="button" (click)="delete(item)">delete</button>
+        <div class="col-xs-8">
+            <span class="badged" [ngClass]="item.status"></span>
+            <span [contentEditable]="item.editable" class="title">{{ item.name }}</span>
+        </div>
+        
+        <div class="col-xs-4">
+            <button type="button" (click)="updateStatus(item, 'todo')" *ngIf="item.status != 'todo'">todo</button>
+            <button type="button" (click)="updateStatus(item, 'started')" *ngIf="item.status != 'started'">start</button>
+            <button type="button" (click)="updateStatus(item, 'done')" *ngIf="item.status != 'done'">done</button>
+            <button type="button" (click)="delete(item)">delete</button>
+        </div>
     </div>
 </li>
