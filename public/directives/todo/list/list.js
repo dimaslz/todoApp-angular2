@@ -8,8 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("angular2/core");
-var service_1 = require('../services/service');
-var status_1 = require('../pipes/status');
+var service_1 = require('../../../services/service');
 var TodoList = (function () {
     function TodoList(todoService) {
         this.todoService = todoService;
@@ -33,7 +32,6 @@ var TodoList = (function () {
         core_1.Component({
             selector: 'todo-list',
             templateUrl: './directives/list.tpl.html',
-            pipes: [status_1.StatusPipe]
         }), 
         __metadata('design:paramtypes', [service_1.TodoService])
     ], TodoList);

@@ -1,6 +1,6 @@
 import {bootstrap} from "angular2/platform/browser";
 import {Component, View, Input} from "angular2/core";
-import {Notification} from "../services/notify";
+import {Notification} from "../../services/notify";
 
 @Component({
     selector: 'notify',
@@ -12,15 +12,7 @@ import {Notification} from "../services/notify";
 // })
 
 export class Notify{
-    private notifications = [
-        // {type: "success", message: "Task Added", show: true},
-        // {type: "success", message: "Task Added", show: true},
-        // {type: "success", message: "Task Added", show: true}
-    ];
-    private notify: Boolean;
-    private type:String;
-    private message:String;
-    timeout = null;
+    private notifications = [];
     
     constructor (public notification: Notification) {
         this.notification.notify.subscribe(uploaded => {
@@ -28,17 +20,17 @@ export class Notify{
         });
     };
     
-    private clear() {
-        clearTimeout(this.timeout);
+    private clear(obj) {
+        clearTimeout(obj);
     }
     
     private createTimeout(notification) {
-        var timeout = setTimeout(() => {
+        notification.timeout = setTimeout(() => {
             notification.notify = !notification.notify;
             setTimeout(() => {
                 this.notifications.shift();
             }, 200);
-        }, 5000);
+        }, 2000);
     }
     
     private setNotify(obj) {
@@ -48,12 +40,5 @@ export class Notify{
         
         this.notifications.push(obj);
         this.createTimeout(obj);
-        this.printNotifications();
-    }
-    
-    private printNotifications() {
-        // this.notifications.forEach((value, index) => {
-        //     console.log(value, index);
-        // });
     }
 }

@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("angular2/core");
-var notify_1 = require("../services/notify");
+var notify_1 = require("../../services/notify");
 var Notify = (function () {
     function Notify(notification) {
         var _this = this;

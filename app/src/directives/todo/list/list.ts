@@ -1,14 +1,12 @@
 import {bootstrap} from "angular2/platform/browser";
 import {Component, View, Input} from "angular2/core";
-import {TodoItem} from "./item";
-import {TodoService} from '../services/service';
-import {StatusPipe} from '../pipes/status';
+import {TodoService} from '../../../services/service';
+// import {StatusPipe} from '../../..//pipes/status';
 
 @Component({
     selector: 'todo-list',
     templateUrl: './directives/list.tpl.html',
-    directives: [TodoItem],
-    pipes: [StatusPipe]
+    // pipes: [StatusPipe]
 })
 
 // @View({
@@ -34,6 +32,14 @@ export class TodoList{
         
         // console.log('this.componentTodos', this.componentTodos);
     };
+    
+    private updateStatus(item, status) {
+        this.todoService.updateStatus(item, status);
+    }
+    
+    private delete(item) {
+        this.todoService.removeTask(item);
+    }
 }
 
 // bootstrap(TodoList);

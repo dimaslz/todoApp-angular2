@@ -3,7 +3,6 @@ import {TodoModel} from "../models/model";
 import {Task} from "../models/task";
 import {Notification} from "../services/notify";
 import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-// import {HTTP_BINDINGS} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';

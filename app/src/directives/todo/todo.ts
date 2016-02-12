@@ -1,11 +1,11 @@
 import {bootstrap} from "angular2/platform/browser";
 import {Component, View, OnInit} from "angular2/core";
-import {TodoList} from "./list";
-import {TodoService} from "../services/service";
-import {Task} from "../models/task";
+import {TodoList} from "./list/list";
+import {TodoService} from "../../services/service";
+import {Task} from "../../models/task";
 import {Http, HTTP_BINDINGS,HTTP_PROVIDERS} from 'angular2/http';
-import {Notify} from '../directives/notify';
-import {Notification} from '../services/notify';
+import {Notify} from '../notify/notify';
+import {Notification} from '../../services/notify';
 
 declare var io: any;
 
