@@ -20,7 +20,7 @@ var Todo = (function () {
         this.todoService = todoService;
         this.notification = notification;
         this.taskInput = new task_1.Task("", "", "", "", new Date());
-        this.typeList = 'todo';
+        this.typeList = '';
     }
     Todo.prototype.ngOnInit = function () {
         var _this = this;
@@ -28,21 +28,14 @@ var Todo = (function () {
             console.log('uploadedTodos', uploadedTodos);
             _this.componentTodos = uploadedTodos;
         });
-        this.todoService.getList('todo');
-        this.socket = io();
-        this.socket.on("chat_message", function (msg) {
-            console.log('socket message_>     ', msg);
-            _this.todoService.getList('todo');
-        });
+        this.todoService.getList(this.typeList);
     };
     ;
     Todo.prototype.send = function (message) {
-        console.log('chkic');
         this.socket.emit("chat_message", message);
     };
     Todo.prototype.addItem = function () {
         this.todoService.addTask(this.taskInput);
-        this.socket.emit("chat_message", this.taskInput);
         this.taskInput = new task_1.Task("", "", "", "", new Date());
     };
     Todo.prototype.removeItem = function (id) {
@@ -53,6 +46,7 @@ var Todo = (function () {
     };
     Todo.prototype.selectType = function (type) {
         this.typeList = type;
+        console.log('dfasd', type);
         this.todoService.getList(type);
     };
     Todo = __decorate([

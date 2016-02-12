@@ -22,7 +22,7 @@ declare var io: any;
 
 class Todo implements OnInit {
     taskInput:Task = new Task("", "", "", "", new Date());
-    public typeList = 'todo';
+    public typeList = '';
     public componentTodos;
     socket: any;
     messages: Array<String>;
@@ -32,13 +32,13 @@ class Todo implements OnInit {
             console.log('uploadedTodos', uploadedTodos);
             this.componentTodos = uploadedTodos;
         });
-        this.todoService.getList('todo');
-        this.socket = io();
-        this.socket.on("chat_message", (msg) => {
-            console.log('socket message_>     ', msg);
-            this.todoService.getList('todo');
-            // this.messages.push(msg);
-        });
+        this.todoService.getList(this.typeList);
+        // this.socket = io();
+        // this.socket.on("chat_message", (msg) => {
+        //     console.log('socket message_>     ', msg);
+        //     this.todoService.getList('todo');
+        //     // this.messages.push(msg);
+        // });
         
     }
     
@@ -51,7 +51,6 @@ class Todo implements OnInit {
     };
     
     public send(message) {
-        console.log('chkic');
         this.socket.emit("chat_message", message);
     }
     
@@ -60,7 +59,7 @@ class Todo implements OnInit {
      */
     public addItem() {
         this.todoService.addTask(this.taskInput);
-        this.socket.emit("chat_message", this.taskInput);
+        // this.socket.emit("chat_message", this.taskInput);
         this.taskInput = new Task("", "", "", "", new Date());
     }
     
@@ -77,6 +76,7 @@ class Todo implements OnInit {
     
     public selectType(type:string) {
         this.typeList = type;
+        console.log('dfasd', type);
         this.todoService.getList(type);
     }
 }

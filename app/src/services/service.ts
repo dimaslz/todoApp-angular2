@@ -8,8 +8,8 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 
-var apiUrl = 'http://todo-node-api.dimaslz.io';
-// var apiUrl = 'http://localhost:8081';
+// var apiUrl = 'http://todo-node-api.dimaslz.io';
+var apiUrl = 'http://192.168.1.128:8081';
 
 @Injectable()
 export class TodoService {
@@ -27,7 +27,7 @@ export class TodoService {
         this._dataStore = { todos: [] };
     };
     
-    public getList(status = 'todo') {
+    public getList(status = '') {
         this.http.get(apiUrl+'/api/list', {search: 'status='+status})
         .map((response) => {
             // return response.json().data;
@@ -60,7 +60,8 @@ export class TodoService {
             .map(response => response.json()).subscribe(data => {
                 var data = data.result;
                 var objTask = new Task(data._id, data.name, data.description, data.status, data.date);
-                this._dataStore.todos.push(objTask);   
+                // this._dataStore.todos.push(objTask);
+                this.getList();
                 this._todosObserver.next(this._dataStore.todos);
                 this.notification.show('success', 'Task Added');
         }, error => console.log('Could not create todo.'));
@@ -89,6 +90,7 @@ export class TodoService {
         Object.getOwnPropertyNames(task).forEach(function(val, idx, array) {
             str += val + '=' + task[val]+'&';
         });
+        console.log(str);
         let creds = JSON.stringify(str);
         
         var headers = new Headers();
@@ -96,7 +98,7 @@ export class TodoService {
         this.http.put(apiUrl+'/api/'+task.id+'/update/status', creds, { headers: headers })
             .map(response => response.json()).subscribe(data => {
                 this.notification.show('success', 'Task '+type);
-                this.getList(currentStatus);
+                this.getList();
         }, error => console.log('Could not create todo.'));
     }
 }

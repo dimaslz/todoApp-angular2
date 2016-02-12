@@ -14,7 +14,7 @@ var http_1 = require('angular2/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/share');
 require('rxjs/add/operator/map');
-var apiUrl = 'http://todo-node-api.dimaslz.io';
+var apiUrl = 'http://192.168.1.128:8081';
 var TodoService = (function () {
     function TodoService(http, notification) {
         var _this = this;
@@ -27,7 +27,7 @@ var TodoService = (function () {
     ;
     TodoService.prototype.getList = function (status) {
         var _this = this;
-        if (status === void 0) { status = 'todo'; }
+        if (status === void 0) { status = ''; }
         this.http.get(apiUrl + '/api/list', { search: 'status=' + status })
             .map(function (response) {
             var data = [];
@@ -54,7 +54,7 @@ var TodoService = (function () {
             .map(function (response) { return response.json(); }).subscribe(function (data) {
             var data = data.result;
             var objTask = new task_1.Task(data._id, data.name, data.description, data.status, data.date);
-            _this._dataStore.todos.push(objTask);
+            _this.getList();
             _this._todosObserver.next(_this._dataStore.todos);
             _this.notification.show('success', 'Task Added');
         }, function (error) { return console.log('Could not create todo.'); });
@@ -81,13 +81,14 @@ var TodoService = (function () {
         Object.getOwnPropertyNames(task).forEach(function (val, idx, array) {
             str += val + '=' + task[val] + '&';
         });
+        console.log(str);
         var creds = JSON.stringify(str);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         this.http.put(apiUrl + '/api/' + task.id + '/update/status', creds, { headers: headers })
             .map(function (response) { return response.json(); }).subscribe(function (data) {
             _this.notification.show('success', 'Task ' + type);
-            _this.getList(currentStatus);
+            _this.getList();
         }, function (error) { return console.log('Could not create todo.'); });
     };
     TodoService = __decorate([

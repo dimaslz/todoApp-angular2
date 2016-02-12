@@ -47,6 +47,31 @@ body {
      box-sizing: border-box; 
 }
 
+.badged {
+    background: #eee;
+    width: 10px;
+    height: 10px;
+    @include border-radius(50%);
+    display: block;
+    float: left;
+    margin: 9px 5px;
+    &.started {
+        background: #A1D6AF;
+    }
+    &.done {
+        background: #85CCFF;
+    }
+}
+
+.status-examples {
+    li {
+        float: left;
+        padding: 10px;
+        .badged {
+            margin: 4px 5px;
+        }
+    }
+}
 h1 {
     font-family: 'AlegreyaSans Light';
     font-size: 60px;
@@ -59,12 +84,6 @@ ul {
 }
 
 .todo {
-    width: 500px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 0;
-    display: table;
- 
     ul.options {
         width: 100%;
         display: inline-block;
@@ -75,10 +94,14 @@ ul {
             float: left;
             width: 33.3333333%;
             cursor: pointer;
+            .title {
+                color: cornflowerblue;
+            }
             i {
                 color: cornflowerblue;
+                display: block;
                 &:hover {
-                    @include opacity(0.8);
+                    @include opacity(0.5);
                 }
             }
             &.active {
@@ -156,6 +179,11 @@ ul.list {
         float: left;
         width: 100%;
         padding: 5px;
+        .title {
+            display: block;
+            float: left;
+            line-height: 28px;
+        }
 
         // div {
         //     opacity: 1;
