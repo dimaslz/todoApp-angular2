@@ -9,11 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("angular2/core");
 var task_1 = require("../models/task");
-var notify_1 = require("../services/notify");
 var http_1 = require('angular2/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/share');
 require('rxjs/add/operator/map');
+var ng2_notify_1 = require('./ng2-notify');
 var apiUrl = 'http://192.168.1.128:8081';
 var TodoService = (function () {
     function TodoService(http, notification) {
@@ -81,7 +81,6 @@ var TodoService = (function () {
         Object.getOwnPropertyNames(task).forEach(function (val, idx, array) {
             str += val + '=' + task[val] + '&';
         });
-        console.log(str);
         var creds = JSON.stringify(str);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -93,7 +92,7 @@ var TodoService = (function () {
     };
     TodoService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, notify_1.Notification])
+        __metadata('design:paramtypes', [http_1.Http, ng2_notify_1.Ng2NotifyService])
     ], TodoService);
     return TodoService;
 })();

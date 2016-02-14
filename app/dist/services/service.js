@@ -1,20 +1,22 @@
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
+    switch (arguments.length) {
+        case 2: return decorators.reduceRight(function(o, d) { return (d && d(o)) || o; }, target);
+        case 3: return decorators.reduceRight(function(o, d) { return (d && d(target, key)), void 0; }, void 0);
+        case 4: return decorators.reduceRight(function(o, d) { return (d && d(target, key, o)) || o; }, desc);
+    }
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("angular2/core");
 var task_1 = require("../models/task");
-var notify_1 = require("../services/notify");
+var components_1 = require('ng2-notify/components');
 var http_1 = require('angular2/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/share');
 require('rxjs/add/operator/map');
-var apiUrl = 'http://178.62.112.67:32778';
+var apiUrl = 'http://192.168.1.128:8081';
 var TodoService = (function () {
     function TodoService(http, notification) {
         var _this = this;
@@ -27,7 +29,7 @@ var TodoService = (function () {
     ;
     TodoService.prototype.getList = function (status) {
         var _this = this;
-        if (status === void 0) { status = 'todo'; }
+        if (status === void 0) { status = ''; }
         this.http.get(apiUrl + '/api/list', { search: 'status=' + status })
             .map(function (response) {
             var data = [];
@@ -54,7 +56,7 @@ var TodoService = (function () {
             .map(function (response) { return response.json(); }).subscribe(function (data) {
             var data = data.result;
             var objTask = new task_1.Task(data._id, data.name, data.description, data.status, data.date);
-            _this._dataStore.todos.push(objTask);
+            _this.getList();
             _this._todosObserver.next(_this._dataStore.todos);
             _this.notification.show('success', 'Task Added');
         }, function (error) { return console.log('Could not create todo.'); });
@@ -81,21 +83,22 @@ var TodoService = (function () {
         Object.getOwnPropertyNames(task).forEach(function (val, idx, array) {
             str += val + '=' + task[val] + '&';
         });
+        console.log(str);
         var creds = JSON.stringify(str);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         this.http.put(apiUrl + '/api/' + task.id + '/update/status', creds, { headers: headers })
             .map(function (response) { return response.json(); }).subscribe(function (data) {
             _this.notification.show('success', 'Task ' + type);
-            _this.getList(currentStatus);
+            _this.getList();
         }, function (error) { return console.log('Could not create todo.'); });
     };
     TodoService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, notify_1.Notification])
+        __metadata('design:paramtypes', [http_1.Http, (typeof (_a = typeof components_1.Ng2NotifyService !== 'undefined' && components_1.Ng2NotifyService) === 'function' && _a) || Object])
     ], TodoService);
     return TodoService;
+    var _a;
 })();
 exports.TodoService = TodoService;
-
 //# sourceMappingURL=service.js.map

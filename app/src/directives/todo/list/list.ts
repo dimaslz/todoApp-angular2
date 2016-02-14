@@ -5,7 +5,7 @@ import {TodoService} from '../../../services/service';
 
 @Component({
     selector: 'todo-list',
-    templateUrl: './directives/list.tpl.html',
+    templateUrl: './directives/todo/list/list.tpl.html',
     // pipes: [StatusPipe]
 })
 

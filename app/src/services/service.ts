@@ -1,11 +1,12 @@
 import {Injectable} from "angular2/core";
 import {TodoModel} from "../models/model";
 import {Task} from "../models/task";
-import {Notification} from "../services/notify";
+// import {Notification} from "../services/notify";
 import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
+import {Ng2NotifyService} from './ng2-notify';
 
 // var apiUrl = 'http://todo-node-api.dimaslz.io';
 var apiUrl = 'http://192.168.1.128:8081';
@@ -20,7 +21,7 @@ export class TodoService {
     
     public todos = [];
     
-    constructor(private http: Http, public notification:Notification) {
+    constructor(private http: Http, public notification:Ng2NotifyService) {
         this.todos$ = new Observable(observer => this._todosObserver = observer).share();
         
         this._dataStore = { todos: [] };
@@ -89,7 +90,6 @@ export class TodoService {
         Object.getOwnPropertyNames(task).forEach(function(val, idx, array) {
             str += val + '=' + task[val]+'&';
         });
-        console.log(str);
         let creds = JSON.stringify(str);
         
         var headers = new Headers();

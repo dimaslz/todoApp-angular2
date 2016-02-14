@@ -16,16 +16,21 @@
         <script>
             System.config({
                 format: 'register',
-                defaultJSExtensions: true
+                defaultJSExtensions: true,
+                map: {
+                    // 'angular2-library-example': '/lib',
+                    // 'ng2-notify': '/lib'
+                }
             });
         </script>
         
         <script src="lib/Rx.js"></script>
         <script src="lib/angular2.js"></script>
         <script src="lib/http.min.js"></script>
+        <!--<script src="lib/ng2-notify.js"></script>-->
         
         <script>
-            System.import('directives/todo/todo').catch(console.log.bind(console));
+            System.import('./directives/todo/todo').catch(console.log.bind(console));
         </script>
 	</head>
 	<body>
