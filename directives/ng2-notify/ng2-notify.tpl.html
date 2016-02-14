@@ -1,7 +1,7 @@
 <ul>
     <li *ngFor="#notification of notifications" [ngClass]="{'animate': notification.notify}" (mouseenter)="clear()" (click)="notification.notify = !notification.notify">
         <div class="box {{notification.type}}" (mouseenter)="clear()" (click)="notification.notify = !notification.notify">
-            {{ notification.message }}
+            {{ notification.message }}.
         </div>
     </li>
 </ul>
