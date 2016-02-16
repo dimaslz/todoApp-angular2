@@ -1,15 +1,12 @@
 import {Injectable} from "angular2/core";
-import {TodoModel} from "../models/model";
 import {Task} from "../models/task";
-// import {Notification} from "../services/notify";
 import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
-import {Ng2NotifyService} from './ng2-notify';
+import {Ng2NotifyService} from 'ng2-notify/notify';
 
-// var apiUrl = 'http://todo-node-api.dimaslz.io';
-var apiUrl = 'http://192.168.1.128:8081';
+var apiUrl = 'http://todo-node-api.dimaslz.io';
 
 @Injectable()
 export class TodoService {
@@ -21,7 +18,7 @@ export class TodoService {
     
     public todos = [];
     
-    constructor(private http: Http, public notification:Ng2NotifyService) {
+    constructor(private http: Http, private notification: Ng2NotifyService) {
         this.todos$ = new Observable(observer => this._todosObserver = observer).share();
         
         this._dataStore = { todos: [] };
@@ -76,11 +73,11 @@ export class TodoService {
         }, error => console.log('Could not create todo.'));
     }
     
-    public addTodo(todo: TodoModel) {
-        if(todo) {
-            this.todos = [...this.todos, todo];
-        }
-    }
+    // public addTodo(todo: TodoModel) {
+    //     if(todo) {
+    //         this.todos = [...this.todos, todo];
+    //     }
+    // }
     
     
     updateStatus(task, type) {

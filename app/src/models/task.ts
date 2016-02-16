@@ -1,9 +1,9 @@
 export class Task {
-    public editable: Boolean;
-    private id: String;
-    private name: String;
-    private description: String;
-    private status: String;
+    public editable: boolean;
+    private id: string;
+    private name: string;
+    private description: string;
+    private status: string;
     private date: Date;
     
     constructor(id:string = "", name:string = "", description:string = "", status:string = "started", date:Date) {

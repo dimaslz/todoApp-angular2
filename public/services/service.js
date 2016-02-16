@@ -13,8 +13,8 @@ var http_1 = require('angular2/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/share');
 require('rxjs/add/operator/map');
-var ng2_notify_1 = require('./ng2-notify');
-var apiUrl = 'http://192.168.1.128:8081';
+var notify_1 = require('ng2-notify/notify');
+var apiUrl = 'http://todo-node-api.dimaslz.io';
 var TodoService = (function () {
     function TodoService(http, notification) {
         var _this = this;
@@ -68,11 +68,6 @@ var TodoService = (function () {
             _this.getList();
         }, function (error) { return console.log('Could not create todo.'); });
     };
-    TodoService.prototype.addTodo = function (todo) {
-        if (todo) {
-            this.todos = this.todos.concat([todo]);
-        }
-    };
     TodoService.prototype.updateStatus = function (task, type) {
         var _this = this;
         var str = '';
@@ -92,7 +87,7 @@ var TodoService = (function () {
     };
     TodoService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, ng2_notify_1.Ng2NotifyService])
+        __metadata('design:paramtypes', [http_1.Http, notify_1.Ng2NotifyService])
     ], TodoService);
     return TodoService;
 })();

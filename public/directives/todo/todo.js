@@ -13,36 +13,29 @@ var list_1 = require("./list/list");
 var service_1 = require("../../services/service");
 var task_1 = require("../../models/task");
 var http_1 = require('angular2/http');
-var ng2_notify_1 = require('../ng2-notify/ng2-notify');
-var ng2_notify_2 = require('../../services/ng2-notify');
+var notify_1 = require('ng2-notify/notify');
 var Todo = (function () {
-    function Todo(todoService, notification) {
+    function Todo(todoService, notify) {
         this.todoService = todoService;
-        this.notification = notification;
+        this.notify = notify;
         this.taskInput = new task_1.Task("", "", "", "", new Date());
         this.typeList = '';
+        this.componentTodos = [];
     }
     Todo.prototype.ngOnInit = function () {
         var _this = this;
-        this.notification.config('right-top', 5000);
         this.todoService.todos$.subscribe(function (uploadedTodos) {
             _this.componentTodos = uploadedTodos;
         });
         this.todoService.getList(this.typeList);
     };
     ;
-    Todo.prototype.send = function (message) {
-        this.socket.emit("chat_message", message);
-    };
     Todo.prototype.addItem = function () {
         this.todoService.addTask(this.taskInput);
         this.taskInput = new task_1.Task("", "", "", "", new Date());
     };
     Todo.prototype.removeItem = function (id) {
         this.todoService.removeTask(id);
-    };
-    Todo.prototype.go = function () {
-        this.notification.show('warning', 'test message');
     };
     Todo.prototype.selectType = function (type) {
         this.typeList = type;
@@ -52,12 +45,13 @@ var Todo = (function () {
         core_1.Component({
             selector: 'todo',
             templateUrl: './directives/todo/todo.tpl.html',
-            directives: [list_1.TodoList, ng2_notify_1.Ng2Notify]
+            directives: [list_1.TodoList, notify_1.Ng2Notify]
         }), 
-        __metadata('design:paramtypes', [service_1.TodoService, ng2_notify_2.Ng2NotifyService])
+        __metadata('design:paramtypes', [service_1.TodoService, notify_1.Ng2NotifyService])
     ], Todo);
     return Todo;
 })();
-browser_1.bootstrap(Todo, [service_1.TodoService, http_1.Http, http_1.HTTP_PROVIDERS, ng2_notify_2.Ng2NotifyService, http_1.HTTP_BINDINGS]).catch(console.error);
+exports.Todo = Todo;
+browser_1.bootstrap(Todo, [service_1.TodoService, http_1.Http, notify_1.Ng2NotifyService, http_1.HTTP_PROVIDERS, http_1.HTTP_BINDINGS]).catch(console.error);
 
 //# sourceMappingURL=todo.js.map

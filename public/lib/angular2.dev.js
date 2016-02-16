@@ -24822,4 +24822,4 @@ System.register("angular2/instrumentation", ["angular2/src/core/profile/profile"
   return module.exports;
 });
 
-//# sourceMappingURLDisabled=angular2.js.map
+//# sourceMappingURLDisabled=angular2.dev.js.map

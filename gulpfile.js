@@ -11,6 +11,7 @@ var concat = require('gulp-concat');
 var replace = require('gulp-replace');
 var del = require('del');
 var clean = require('gulp-clean');
+var ghPages = require('gulp-gh-pages');
 
 var tsProject = ts.createProject('./app/src/tsconfig.json');
 
@@ -65,32 +66,7 @@ gulp.task('assets', function () {
         .pipe(gulp.dest('./public/assets'))
 })
 
-// gulp.task('html2js', function () {
-//     gulp.src('./dist/directives/**/*.js') // also can use *.js files 
-//         .pipe(embedTemplates({sourceType:'js'}))
-//         .pipe(gulp.dest('./dist'));
-// });
-
-gulp.task('compile-ts-min', function() {
-  var tsResult = gulp.src(['./app/src/**/*.ts', '!node_modules/**/*.*', '!build/**/*.*'])
-                  .pipe(plumber())
-                  .pipe(sourcemaps.init())
-                  .pipe(ts(tsProject));
-
-        //   return tsResult.js
-		// 		// .pipe(concat('output.js')) 
-		// 		.pipe(sourcemaps.write()) 
-		// 		.pipe(gulp.dest('dist/js'));
-  return merge([ // Merge the two output streams, so this task is finished when the IO of both operations are done.
-      tsResult.dts.pipe(gulp.dest('dist/definitions')),
-      tsResult.js
-        .pipe(concat('output.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('dist'))
-  ]);
-});
-
-gulp.task('deploy', function() {
+gulp.task('github-page', function() {
     gulp.src(['src/index.html'])
     .pipe(
         replace("<base href=\"/\">", "<base href=\"/learningAngular2/\">")
@@ -107,24 +83,20 @@ gulp.task('deploy', function() {
 /********************************************************************************** */
 /********************************************************************************** */
 /********************************************************************************** */
-gulp.task('clean-public', function () {
-	return gulp.src('./public')
-		.pipe(clean({force: true}));
-});
-
-gulp.task('copy-external-modules', ['clean-public'], function() {
+gulp.task('copy-external-modules', function() {
+    del.sync(['public/**']);
+    gulp.src(['node_modules/ng2-notify/dist/**/*.js'])
+        .pipe(gulp.dest('public/lib/ng2-notify'));
     return gulp.src([
         'node_modules/angular2/bundles/angular2-polyfills.js',
         'node_modules/es6-shim/es6-shim.min.js',
         'node_modules/systemjs/dist/system.src.js',
         'node_modules/systemjs/dist/system.js',
         'node_modules/rxjs/bundles/Rx.js',
-        'node_modules/angular2/bundles/angular2.js',
-        'node_modules/ng2-notify/**/*.js',
+        'node_modules/angular2/bundles/angular2.dev.js',
         // 'node_modules/angular2/bundles/router.dev.js',
         'node_modules/angular2/bundles/http.min.js',
-        'node_modules/systemjs/dist/system-polyfills.js',
-        'node_modules/angular2-library-example/**/*.js'
+        'node_modules/systemjs/dist/system-polyfills.js'
         ])
         .pipe(gulp.dest('public/lib'))
 });
