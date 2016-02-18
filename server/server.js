@@ -7,8 +7,8 @@ var express = require('express');
 var config = require('./config');
 
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io').listen(http);
+// var http = require('http').Server(app);
+// var io = require('socket.io').listen(http);
 
 app.use(express.static('./public'));
 
@@ -25,21 +25,21 @@ nunjucks.configure(app.get('views'), {
 });
 
 
-io.on('connection', function(socket) {
-   /*console.log('a user connected'); 
-   socket.on('disconnect', function() {
-      console.log('user disconnect'); 
-   });*/
+// io.on('connection', function(socket) {
+//    /*console.log('a user connected'); 
+//    socket.on('disconnect', function() {
+//       console.log('user disconnect'); 
+//    });*/
    
-//    socket.on('chat message', function(msg) {
-//        console.log('message: ' + msg);
-//    });
+// //    socket.on('chat message', function(msg) {
+// //        console.log('message: ' + msg);
+// //    });
    
-   socket.on('chat_message', function(msg){
-       console.log('mensajeeeee');
-    io.emit('chat_message', msg);
-  });
-});
+//    socket.on('chat_message', function(msg){
+//        console.log('mensajeeeee');
+//     io.emit('chat_message', msg);
+//   });
+// });
 
 
 
@@ -49,15 +49,15 @@ app.get('/*', function (req, res) {
 });
 
 
-http.listen(3000, function() {
-    console.log('listening on *:3000');
-});
+// http.listen(3000, function() {
+//     console.log('listening on *:3000');
+// });
 
 // start server!
-// app.listen(config.port, (err) => {
-//     if (err) {
-//         console.error(err);
-//     } else {
-//         console.info('√ Server ready: http://localhost:%s', config.port);
-//     }
-// });
+app.listen(config.port, (err) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.info('√ Server ready: http://localhost:%s', config.port);
+    }
+});
