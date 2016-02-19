@@ -10,6 +10,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io').listen(http);
 
+app.use(express.static('./public'));
 app.use("/scripts", express.static(__dirname + "/node_modules/"));
 
 app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +27,10 @@ nunjucks.configure(app.get('views'), {
 io.on('connection', function(socket) {
     socket.on('reloadList', function(msg){
         io.emit('reloadList', msg);
+    });
+    
+    socket.on('changeRoute', function(msg){
+        io.emit('changeRoute', msg);
     });
 });
 

@@ -3,6 +3,8 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router, RouterLink, Lo
 import {Todo} from './directives/todo/todo';
 import {bootstrap} from 'angular2/platform/browser';
 
+declare var io: any;
+
 @Component ({
     selector: 'app',
     providers: [ROUTER_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy})],
@@ -36,7 +38,23 @@ import {bootstrap} from 'angular2/platform/browser';
 ])
 
 export class App {
-    constructor() {}
+    private socket: any;
+    private currentRoute: string;
+    
+    constructor(private router: Router) {
+        this.socket = io('http://localhost:3000');
+        this.socket.on("changeRoute", (route) => {
+            console.log('emit reveived', route);
+            if(this.currentRoute != route) {
+                this.currentRoute = route;
+                this.router.navigateByUrl(route);   
+            }
+        });
+        this.router.subscribe((route) => {
+            console.log(route)
+            this.socket.emit("changeRoute", route);
+        })
+    }
 }
 
 bootstrap(App, []).catch(console.error);

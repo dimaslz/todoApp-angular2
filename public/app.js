@@ -12,7 +12,21 @@ var router_1 = require('angular2/router');
 var todo_1 = require('./directives/todo/todo');
 var browser_1 = require('angular2/platform/browser');
 var App = (function () {
-    function App() {
+    function App(router) {
+        var _this = this;
+        this.router = router;
+        this.socket = io('http://localhost:3000');
+        this.socket.on("changeRoute", function (route) {
+            console.log('emit reveived', route);
+            if (_this.currentRoute != route) {
+                _this.currentRoute = route;
+                _this.router.navigateByUrl(route);
+            }
+        });
+        this.router.subscribe(function (route) {
+            console.log(route);
+            _this.socket.emit("changeRoute", route);
+        });
     }
     App = __decorate([
         core_1.Component({
@@ -42,7 +56,7 @@ var App = (function () {
             },
             { path: '/**', redirectTo: ['TaskAll'] }
         ]), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.Router])
     ], App);
     return App;
 })();

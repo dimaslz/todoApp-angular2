@@ -1,3 +1,7 @@
+import { Router } from 'angular2/router';
 export declare class App {
-    constructor();
+    private router;
+    private socket;
+    private currentRoute;
+    constructor(router: Router);
 }
