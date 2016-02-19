@@ -44,14 +44,12 @@ export class App {
     constructor(private router: Router) {
         this.socket = io('http://localhost:3000');
         this.socket.on("changeRoute", (route) => {
-            console.log('emit reveived', route);
             if(this.currentRoute != route) {
                 this.currentRoute = route;
                 this.router.navigateByUrl(route);   
             }
         });
         this.router.subscribe((route) => {
-            console.log(route)
             this.socket.emit("changeRoute", route);
         })
     }
