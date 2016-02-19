@@ -1,9 +1,6 @@
 import {bootstrap} from "angular2/platform/browser";
 import {Component, View, Input} from "angular2/core";
 import {TodoService} from '../../../services/service';
-// import {StatusPipe} from '../../..//pipes/status';
-
-declare var io: any;
 
 @Component({
     selector: 'todo-list',
@@ -14,14 +11,11 @@ export class TodoList{
     @Input() typeList;
     @Input() tasks;
     public componentTodos;
-    public socket;
     
     constructor (public todoService: TodoService) {
         this.todoService.update.subscribe(value => {
             this.todoService.getList(this.typeList);
         });
-        
-        this.socket = io('http://localhost:3000');
     };
     
     private updateStatus(item, status) {

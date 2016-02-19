@@ -16,7 +16,6 @@ var TodoList = (function () {
         this.todoService.update.subscribe(function (value) {
             _this.todoService.getList(_this.typeList);
         });
-        this.socket = io('http://localhost:3000');
     }
     ;
     TodoList.prototype.updateStatus = function (item, status) {
