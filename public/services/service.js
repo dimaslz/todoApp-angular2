@@ -21,7 +21,7 @@ var TodoService = (function () {
         this.http = http;
         this.notification = notification;
         this.todos = [];
-        this.socket = io('http://localhost:8080');
+        this.socket = io('http://localhost:5000');
         this.todos$ = new Observable_1.Observable(function (observer) { return _this._todosObserver = observer; }).share();
         this.update = new Observable_1.Observable(function (observer) { return _this._updateObserver = observer; }).share();
         this._dataStore = { todos: [] };

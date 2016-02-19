@@ -40,7 +40,7 @@ export class Todo implements OnInit {
         public notification:Ng2NotifyService,
         public params:RouteParams) {
             
-        this.socket = io('http://localhost:8080');
+        this.socket = io('http://localhost:5000');
         this.socket.on("reloadList", (notification) => {
             this.notification.show(notification.type, notification.message);
             this.todoService.getList(this.typeList);

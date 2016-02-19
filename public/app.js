@@ -15,7 +15,7 @@ var App = (function () {
     function App(router) {
         var _this = this;
         this.router = router;
-        this.socket = io('http://localhost:8080');
+        this.socket = io('http://localhost:5000');
         this.socket.on("changeRoute", function (route) {
             if (_this.currentRoute != route) {
                 _this.currentRoute = route;

@@ -42,7 +42,7 @@ export class App {
     private currentRoute: string;
     
     constructor(private router: Router) {
-        this.socket = io('http://localhost:8080');
+        this.socket = io('http://localhost:5000');
         this.socket.on("changeRoute", (route) => {
             if(this.currentRoute != route) {
                 this.currentRoute = route;
