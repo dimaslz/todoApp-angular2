@@ -3,7 +3,7 @@
 var config = {
     name: 'Started page node',
     env: process.env.NODE_ENV || 'development',
-    port: process.env.PORT || 8081,
+    port: process.env.PORT || 8080,
     debug: process.env.DEBUG_MODE || true
 };
 
