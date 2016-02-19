@@ -1,7 +1,10 @@
 #TodoApp Angular2
 This app is a test to try the new framework Angular2. 
 
-Also, I added a basic socket behavios like improvement.
+Also, I added a basic socket behaviors like improvement.
+
+#Technologies
+angular2(with typescript) + sass + gulp + node + sockets + mongodb (mongoose) 
 
 ##Demo
 The project is deployed in server managed by [Dokku](https://github.com/dokku/dokku) in the next url [http://todoapp.dimaslz.com](http://todoapp.dimaslz.com)
