@@ -23,7 +23,7 @@ export class TodoService {
     public todos = [];
     
     constructor(private http: Http, private notification: Ng2NotifyService) {
-        this.socket = io('http://192.168.1.128:3000');
+        this.socket = io('http://localhost:3000');
         
         this.todos$ = new Observable(observer => this._todosObserver = observer).share();
         this.update = new Observable(observer => this._updateObserver = observer).share();

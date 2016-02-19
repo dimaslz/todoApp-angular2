@@ -21,7 +21,7 @@ export class TodoList{
             this.todoService.getList(this.typeList);
         });
         
-        this.socket = io('http://192.168.1.128:3000');
+        this.socket = io('http://localhost:3000');
     };
     
     private updateStatus(item, status) {
@@ -30,6 +30,5 @@ export class TodoList{
     
     private delete(item) {
         this.todoService.removeTask(item);
-        this.socket.emit("reloadList", {type: 'success', message: 'Task deleted'});
     }
 }

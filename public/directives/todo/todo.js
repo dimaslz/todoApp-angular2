@@ -24,7 +24,7 @@ var Todo = (function () {
         this.taskInput = new task_1.Task("", "", "", "", new Date());
         this.typeList = '';
         this.componentTodos = [];
-        this.socket = io('http://192.168.1.128:3000');
+        this.socket = io('http://localhost:3000');
         this.socket.on("reloadList", function (notification) {
             _this.notification.show(notification.type, notification.message);
             _this.todoService.getList(_this.typeList);
