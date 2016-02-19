@@ -17,14 +17,12 @@ var App = (function () {
         this.router = router;
         this.socket = io('http://localhost:3000');
         this.socket.on("changeRoute", function (route) {
-            console.log('emit reveived', route);
             if (_this.currentRoute != route) {
                 _this.currentRoute = route;
                 _this.router.navigateByUrl(route);
             }
         });
         this.router.subscribe(function (route) {
-            console.log(route);
             _this.socket.emit("changeRoute", route);
         });
     }
