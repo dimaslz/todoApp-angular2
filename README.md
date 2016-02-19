@@ -7,7 +7,7 @@ Also, I added a basic socket behaviors like improvement.
 angular2(with typescript) + sass + gulp + node + sockets + mongodb (mongoose) 
 
 ##Demo
-The project is deployed in server managed by [Dokku](https://github.com/dokku/dokku) in the next url [http://todoapp.dimaslz.com](http://todoapp.dimaslz.com)
+The project is deployed in server managed by [Dokku](https://github.com/dokku/dokku) in the next url [http://todoapp.dimaslz.io](http://todoapp.dimaslz.io)
 
 Open this in two windows and try how change on realtime.
 
