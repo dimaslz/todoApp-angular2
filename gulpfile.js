@@ -14,6 +14,7 @@ var clean = require('gulp-clean');
 var ghPages = require('gulp-gh-pages');
 var server = require('gulp-develop-server');
 var exec = require('gulp-exec');
+var livereload = require( 'gulp-livereload' );
 
 var tsProject = ts.createProject('./app/src/tsconfig.json');
 
@@ -47,11 +48,11 @@ gulp.task('sass', function() {
 		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('./public/css'))
-		.pipe(
-            browserSync.reload({
-                stream: true
-            }));
+		.pipe(gulp.dest('./public/css'));
+		// .pipe(
+        //     browserSync.reload({
+        //         stream: true
+        //     }));
 });
 
 gulp.task('index', function() {
@@ -137,11 +138,57 @@ gulp.task('github-page', function() {
     .pipe(ghPages());
 });
 
+var options = {
+    server: {
+        path: './bin/socket',
+        // baseDir: './public',
+        execArgv: [ '--harmony' ]
+    },
+    bs: {
+        // proxy: 'http://localhost:5000'
+        port: 5000
+    }
+};
+
+var serverFiles = [
+    './public/**/*.js'
+];
+
+gulp.task( 'server:start', function() {
+    // server.listen( options.server, function( error ) {
+    //     if( ! error ) browserSync( options.bs );
+    // });
+    server.listen( options.server, livereload.listen );
+});
+
+gulp.task( 'server:restart', function() {
+    server.restart( function( error ) {
+        if( ! error ) browserSync.reload();
+    });
+});
+
+gulp.task( 'node', [ 'server:start' ], function() {
+    gulp.watch( serverFiles, [ 'server:restart' ] )
+});
+
 gulp.task('watch', ['copy-external-modules', 'compile-ts', 'templates', 'sass', 'assets', 'index'], function() {
     startBrowserSync();
     gulp.watch('./app/src/index.html', ['index']);
     gulp.watch('./app/src/directives/**/*.tpl.html', ['templates']).on('change', browserSync.reload);
     gulp.watch('./app/src/**/*.ts', ['compile-ts']).on('change', browserSync.reload);
+    gulp.watch('./app/sass/main.scss', ['sass']);
+});
+
+gulp.task('watch-node', ['copy-external-modules', 'compile-ts', 'templates', 'sass', 'assets', 'index', 'server:start'], function() {
+    function restart( file ) {
+        server.changed( function( error ) {
+            if( ! error ) livereload.changed( file.path );
+        });
+    }
+    
+    gulp.watch('./app/src/index.html', ['index']);
+    gulp.watch('./app/src/directives/**/*.tpl.html', ['templates']).on('change', restart);
+    gulp.watch('./app/src/**/*.ts', ['compile-ts']).on('change', restart);
     gulp.watch('./app/sass/main.scss', ['sass']);
 });
 
