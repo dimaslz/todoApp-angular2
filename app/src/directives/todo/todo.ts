@@ -1,4 +1,3 @@
-///<reference path="../../../../node_modules/angular2/typings/browser.d.ts"/>
 import {Component, View, OnInit, Inject, forwardRef, Injector} from "angular2/core";
 import {TodoList} from "./list/list";
 import {TodoService} from "../../services/service";
@@ -42,7 +41,10 @@ export class Todo implements OnInit {
         
         this.socket = io();
         this.socket.on("reloadList", (notification) => {
-            this.notification.show(notification.type, notification.message);
+            this.notification.show(notification.type, {
+                message: notification.message
+            });
+            
             this.todoService.getList(this.typeList);
         });
     };

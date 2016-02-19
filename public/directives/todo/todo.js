@@ -26,7 +26,9 @@ var Todo = (function () {
         this.componentTodos = [];
         this.socket = io();
         this.socket.on("reloadList", function (notification) {
-            _this.notification.show(notification.type, notification.message);
+            _this.notification.show(notification.type, {
+                message: notification.message
+            });
             _this.todoService.getList(_this.typeList);
         });
     }

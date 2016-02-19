@@ -1,4 +1,3 @@
-/// <reference path="../../../github/todoApp-angular2/node_modules/angular2/typings/browser.d.ts" />
 import { OnInit } from "angular2/core";
 import { TodoService } from "../../services/service";
 import { Ng2NotifyService } from 'ng2-notify/notify';

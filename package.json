@@ -27,7 +27,7 @@
     "http": "0.0.0",
     "mongoose": "^4.4.2",
     "mongoose-unique-validator": "^0.4.1",
-    "ng2-notify": "^1.0.0",
+    "ng2-notify": "^1.1.2",
     "nunjucks": "^2.3.0",
     "path": "^0.12.7",
     "reflect-metadata": "^0.1.3",
