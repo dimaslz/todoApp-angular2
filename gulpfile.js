@@ -12,6 +12,8 @@ var replace = require('gulp-replace');
 var del = require('del');
 var clean = require('gulp-clean');
 var ghPages = require('gulp-gh-pages');
+var server = require('gulp-develop-server');
+var exec = require('gulp-exec');
 
 var tsProject = ts.createProject('./app/src/tsconfig.json');
 
@@ -22,8 +24,8 @@ function startBrowserSync() {
         },
         notify: false,
         ghostMode: {
-            clicks: true,
-            forms: true,
+            clicks: false,
+            forms: false,
             scroll: true
         }
     });
@@ -87,6 +89,10 @@ gulp.task('copy-external-modules', function() {
     del.sync(['public/**']);
     gulp.src(['node_modules/ng2-notify/dist/**/*.js'])
         .pipe(gulp.dest('public/lib/ng2-notify'));
+        
+    gulp.src(['node_modules/socket.io/lib/socket.js'])
+        .pipe(gulp.dest('public/lib/socket.io'));
+
     return gulp.src([
         'node_modules/angular2/bundles/angular2-polyfills.js',
         'node_modules/es6-shim/es6-shim.min.js',

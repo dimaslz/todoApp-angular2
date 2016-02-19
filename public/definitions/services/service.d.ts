@@ -6,12 +6,17 @@ export declare class TodoService {
     private http;
     private notification;
     todos$: Observable<Array<Task>>;
+    update: Observable<boolean>;
     private _todosObserver;
+    private _updateObserver;
     private _dataStore;
+    socket: any;
     todos: any[];
     constructor(http: Http, notification: Ng2NotifyService);
     getList(status?: string): void;
     addTask(task: Task): void;
     removeTask(task: any): void;
+    reloadList(): void;
     updateStatus(task: any, type: any): void;
+    updateStatus2(task: any, type: any): Promise<{}>;
 }

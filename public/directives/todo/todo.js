@@ -7,26 +7,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var browser_1 = require("angular2/platform/browser");
 var core_1 = require("angular2/core");
 var list_1 = require("./list/list");
 var service_1 = require("../../services/service");
 var task_1 = require("../../models/task");
 var http_1 = require('angular2/http');
 var notify_1 = require('ng2-notify/notify');
+var router_1 = require('angular2/router');
 var Todo = (function () {
-    function Todo(todoService, notify) {
+    function Todo(todoService, notify, notification, params) {
+        var _this = this;
         this.todoService = todoService;
         this.notify = notify;
+        this.notification = notification;
+        this.params = params;
         this.taskInput = new task_1.Task("", "", "", "", new Date());
         this.typeList = '';
         this.componentTodos = [];
+        this.socket = io('http://192.168.1.128:3000');
+        this.socket.on("reloadList", function (notification) {
+            _this.notification.show(notification.type, notification.message);
+            _this.todoService.getList(_this.typeList);
+        });
     }
     Todo.prototype.ngOnInit = function () {
         var _this = this;
         this.todoService.todos$.subscribe(function (uploadedTodos) {
             _this.componentTodos = uploadedTodos;
         });
+        this.typeList = this.params.get('list') ? this.params.get('list') : '';
         this.todoService.getList(this.typeList);
     };
     ;
@@ -34,24 +43,19 @@ var Todo = (function () {
         this.todoService.addTask(this.taskInput);
         this.taskInput = new task_1.Task("", "", "", "", new Date());
     };
-    Todo.prototype.removeItem = function (id) {
-        this.todoService.removeTask(id);
-    };
-    Todo.prototype.selectType = function (type) {
-        this.typeList = type;
-        this.todoService.getList(type);
-    };
     Todo = __decorate([
         core_1.Component({
             selector: 'todo',
+            providers: [notify_1.Ng2NotifyService, service_1.TodoService, http_1.Http, http_1.HTTP_BINDINGS, http_1.HTTP_PROVIDERS]
+        }),
+        core_1.View({
             templateUrl: './directives/todo/todo.tpl.html',
-            directives: [list_1.TodoList, notify_1.Ng2Notify]
+            directives: [list_1.TodoList, notify_1.Ng2Notify, router_1.ROUTER_DIRECTIVES, router_1.RouterLink]
         }), 
-        __metadata('design:paramtypes', [service_1.TodoService, notify_1.Ng2NotifyService])
+        __metadata('design:paramtypes', [service_1.TodoService, notify_1.Ng2NotifyService, notify_1.Ng2NotifyService, router_1.RouteParams])
     ], Todo);
     return Todo;
 })();
 exports.Todo = Todo;
-browser_1.bootstrap(Todo, [service_1.TodoService, http_1.Http, notify_1.Ng2NotifyService, http_1.HTTP_PROVIDERS, http_1.HTTP_BINDINGS]).catch(console.error);
 
 //# sourceMappingURL=todo.js.map

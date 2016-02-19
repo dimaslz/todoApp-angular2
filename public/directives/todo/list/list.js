@@ -11,7 +11,12 @@ var core_1 = require("angular2/core");
 var service_1 = require('../../../services/service');
 var TodoList = (function () {
     function TodoList(todoService) {
+        var _this = this;
         this.todoService = todoService;
+        this.todoService.update.subscribe(function (value) {
+            _this.todoService.getList(_this.typeList);
+        });
+        this.socket = io('http://192.168.1.128:3000');
     }
     ;
     TodoList.prototype.updateStatus = function (item, status) {
@@ -19,6 +24,7 @@ var TodoList = (function () {
     };
     TodoList.prototype.delete = function (item) {
         this.todoService.removeTask(item);
+        this.socket.emit("reloadList", { type: 'success', message: 'Task deleted' });
     };
     __decorate([
         core_1.Input(), 
@@ -31,7 +37,7 @@ var TodoList = (function () {
     TodoList = __decorate([
         core_1.Component({
             selector: 'todo-list',
-            templateUrl: './directives/todo/list/list.tpl.html',
+            templateUrl: './directives/todo/list/list.tpl.html'
         }), 
         __metadata('design:paramtypes', [service_1.TodoService])
     ], TodoList);

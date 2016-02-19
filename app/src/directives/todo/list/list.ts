@@ -3,34 +3,25 @@ import {Component, View, Input} from "angular2/core";
 import {TodoService} from '../../../services/service';
 // import {StatusPipe} from '../../..//pipes/status';
 
+declare var io: any;
+
 @Component({
     selector: 'todo-list',
-    templateUrl: './directives/todo/list/list.tpl.html',
-    // pipes: [StatusPipe]
+    templateUrl: './directives/todo/list/list.tpl.html'
 })
-
-// @View({
-//     templateUrl:string = './directives/list.tpl.html',
-//     directives: [TodoItem],
-//     pipes: [StatusPipe]
-// })
 
 export class TodoList{
     @Input() typeList;
     @Input() tasks;
     public componentTodos;
+    public socket;
     
     constructor (public todoService: TodoService) {
+        this.todoService.update.subscribe(value => {
+            this.todoService.getList(this.typeList);
+        });
         
-        // this.todoService.todos$.subscribe(uploadedTodos => {
-        //     console.log(uploadedTodos);
-        //     this.componentTodos = uploadedTodos
-        // });
-        // this.todoService.getList();
-        // todoService.todos$.subscribe(uploadedTodos => this.componentTodos = uploadedTodos);
-        // todoService.getList();
-        
-        // console.log('this.componentTodos', this.componentTodos);
+        this.socket = io('http://192.168.1.128:3000');
     };
     
     private updateStatus(item, status) {
@@ -39,7 +30,6 @@ export class TodoList{
     
     private delete(item) {
         this.todoService.removeTask(item);
+        this.socket.emit("reloadList", {type: 'success', message: 'Task deleted'});
     }
 }
-
-// bootstrap(TodoList);

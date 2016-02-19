@@ -5,9 +5,11 @@ var bodyParser = require('body-parser');
 var nunjucks = require('nunjucks');
 var express = require('express');
 var config = require('./config');
-var app = express();
 
-app.use(express.static('./public'));
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io').listen(http);
+
 app.use("/scripts", express.static(__dirname + "/node_modules/"));
 
 app.set('views', path.join(__dirname, 'views'));
@@ -20,16 +22,21 @@ nunjucks.configure(app.get('views'), {
     watch: config.env == 'development'
 });
 
+
+io.on('connection', function(socket) {
+    socket.on('reloadList', function(msg){
+        io.emit('reloadList', msg);
+    });
+});
+
+
+
 // redirect all outher routes to our single page application
 app.get('/*', function (req, res) {
     res.render('index.html');
 });
 
-// start server!
-app.listen(config.port, (err) => {
-    if (err) {
-        console.error(err);
-    } else {
-        console.info('Server ready: http://localhost:%s', config.port);
-    }
+
+http.listen(3000, function() {
+    console.log('listening on *:3000');
 });

@@ -21,7 +21,9 @@ var TodoService = (function () {
         this.http = http;
         this.notification = notification;
         this.todos = [];
+        this.socket = io('http://192.168.1.128:3000');
         this.todos$ = new Observable_1.Observable(function (observer) { return _this._todosObserver = observer; }).share();
+        this.update = new Observable_1.Observable(function (observer) { return _this._updateObserver = observer; }).share();
         this._dataStore = { todos: [] };
     }
     ;
@@ -54,9 +56,8 @@ var TodoService = (function () {
             .map(function (response) { return response.json(); }).subscribe(function (data) {
             var data = data.result;
             var objTask = new task_1.Task(data._id, data.name, data.description, data.status, data.date);
-            _this.getList();
             _this._todosObserver.next(_this._dataStore.todos);
-            _this.notification.show('success', 'Task Added');
+            _this.socket.emit("reloadList", { type: 'success', message: 'Task added' });
         }, function (error) { return console.log('Could not create todo.'); });
     };
     TodoService.prototype.removeTask = function (task) {
@@ -64,9 +65,11 @@ var TodoService = (function () {
         var headers = new http_1.Headers();
         this.http.delete(apiUrl + '/api/' + task.id + '/delete')
             .map(function (response) { return response.json(); }).subscribe(function (data) {
-            _this.notification.show('success', 'Task Removed');
-            _this.getList();
+            _this.socket.emit("reloadList", { type: 'success', message: 'Task deleted' });
         }, function (error) { return console.log('Could not create todo.'); });
+    };
+    TodoService.prototype.reloadList = function () {
+        this._updateObserver.next(true);
     };
     TodoService.prototype.updateStatus = function (task, type) {
         var _this = this;
@@ -81,9 +84,25 @@ var TodoService = (function () {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         this.http.put(apiUrl + '/api/' + task.id + '/update/status', creds, { headers: headers })
             .map(function (response) { return response.json(); }).subscribe(function (data) {
-            _this.notification.show('success', 'Task ' + type);
-            _this.getList();
+            _this.socket.emit("reloadList", { type: 'success', message: 'Task' });
         }, function (error) { return console.log('Could not create todo.'); });
+    };
+    TodoService.prototype.updateStatus2 = function (task, type) {
+        return new Promise(function (resolve, reject) {
+            var str = '';
+            var currentStatus = task.status;
+            task.status = type;
+            Object.getOwnPropertyNames(task).forEach(function (val, idx, array) {
+                str += val + '=' + task[val] + '&';
+            });
+            var creds = JSON.stringify(str);
+            var headers = new http_1.Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            this.http.put(apiUrl + '/api/' + task.id + '/update/status', creds, { headers: headers })
+                .map(function (response) { return response.json(); }).subscribe(function (data) {
+                resolve(data);
+            }, function (error) { return console.log('Could not create todo.'); });
+        });
     };
     TodoService = __decorate([
         core_1.Injectable(), 

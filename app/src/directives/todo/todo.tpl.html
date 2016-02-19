@@ -6,19 +6,26 @@
 </form>
 
 <ul class="options">
-    <li (click)="selectType()" [ngClass]="{'active': typeList == 'todo'}">
-        <i class="fa fa-list fa-2x"></i>
-        <span class="title">All</span>
+    <li [ngClass]="{'active': typeList == ''}">
+        <a [routerLink]="['TaskAll']">
+            <i class="fa fa-list fa-2x"></i>
+            <span class="title">All</span>
+        </a>
     </li>
-    <li (click)="selectType('started')" [ngClass]="{'active': typeList == 'started'}">
-        <i class="fa fa-hourglass-start fa-2x"></i>
-        <span class="title">Started</span>
+    <li [ngClass]="{'active': typeList == 'started'}">
+        <a [routerLink]="['TaskList', {'list': 'started'}]">
+            <i class="fa fa-hourglass-start fa-2x"></i>
+            <span class="title">Started</span>
+        </a>
     </li>
-    <li (click)="selectType('done')" [ngClass]="{'active': typeList == 'done'}">
-        <i class="fa fa-check fa-2x"></i>
-        <span class="title">Done</span>
+    <li [ngClass]="{'active': typeList == 'done'}">
+        <a [routerLink]="['TaskList', {'list': 'done'}]">
+            <i class="fa fa-check fa-2x"></i>
+            <span class="title">Done</span>
+        </a>
     </li>
 </ul>
+
 
 <ul class="status-examples pull-right">
     <li><span class="badged"></span>Listed</li>
@@ -26,9 +33,6 @@
     <li><span class="badged done"></span> Done</li>
 </ul>
 <todo-list [typeList]="typeList" [tasks]="componentTodos"></todo-list>
-
-
-<hello-world></hello-world>
 
 
 <ng2-notify></ng2-notify>

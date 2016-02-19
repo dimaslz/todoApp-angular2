@@ -4,6 +4,7 @@ export declare class TodoList {
     typeList: any;
     tasks: any;
     componentTodos: any;
+    socket: any;
     constructor(todoService: TodoService);
     private updateStatus(item, status);
     private delete(item);

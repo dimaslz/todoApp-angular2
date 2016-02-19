@@ -85,6 +85,7 @@ ul {
 
 todo {
     display: inline-block;
+    width: 100%;
     form {
         position: relative;
         input {
@@ -149,6 +150,9 @@ todo {
             float: left;
             width: 33.3333333%;
             cursor: pointer;
+            a, a:hover {
+                text-decoration: none;
+            }
             .title {
                 color: cornflowerblue;
             }
@@ -159,6 +163,7 @@ todo {
                     @include opacity(0.5);
                 }
             }
+            
             &.active {
                 i {
                     @include opacity(0.5);

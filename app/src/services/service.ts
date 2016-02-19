@@ -7,19 +7,26 @@ import 'rxjs/add/operator/map';
 import {Ng2NotifyService} from 'ng2-notify/notify';
 
 var apiUrl = 'http://todo-node-api.dimaslz.io';
+declare var io: any;
 
 @Injectable()
 export class TodoService {
     todos$: Observable<Array<Task>>;
+    update: Observable<boolean>;
     private _todosObserver: any;
+    private _updateObserver: any;
     private _dataStore : {
         todos: Array<Task>
     };
+    public socket: any;
     
     public todos = [];
     
     constructor(private http: Http, private notification: Ng2NotifyService) {
+        this.socket = io('http://192.168.1.128:3000');
+        
         this.todos$ = new Observable(observer => this._todosObserver = observer).share();
+        this.update = new Observable(observer => this._updateObserver = observer).share();
         
         this._dataStore = { todos: [] };
     };
@@ -36,9 +43,7 @@ export class TodoService {
             return data;
         })
         .subscribe((data) => {
-            
             this._dataStore.todos = data;
-            // console.log('data--->   ', data);
             
             this._todosObserver.next(this._dataStore.todos);
         }, error => console.error('Could not load todos'));
@@ -57,10 +62,10 @@ export class TodoService {
             .map(response => response.json()).subscribe(data => {
                 var data = data.result;
                 var objTask = new Task(data._id, data.name, data.description, data.status, data.date);
-                // this._dataStore.todos.push(objTask);
-                this.getList();
                 this._todosObserver.next(this._dataStore.todos);
-                this.notification.show('success', 'Task Added');
+                this.socket.emit("reloadList", {type: 'success', message: 'Task added'});
+                // this.notification.show('success', 'Task Added');
+                // this.reloadList();
         }, error => console.log('Could not create todo.'));
     }
     
@@ -68,17 +73,15 @@ export class TodoService {
         var headers = new Headers();
         this.http.delete(apiUrl+'/api/'+task.id+'/delete')
             .map(response => response.json()).subscribe(data => {
-                this.notification.show('success', 'Task Removed');
-                this.getList();
+                // this.notification.show('success', 'Task Removed');
+                // this.reloadList();
+                this.socket.emit("reloadList", {type: 'success', message: 'Task deleted'});
         }, error => console.log('Could not create todo.'));
     }
     
-    // public addTodo(todo: TodoModel) {
-    //     if(todo) {
-    //         this.todos = [...this.todos, todo];
-    //     }
-    // }
-    
+    reloadList() {
+        this._updateObserver.next(true);
+    }
     
     updateStatus(task, type) {
         var str = '';
@@ -93,8 +96,30 @@ export class TodoService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         this.http.put(apiUrl+'/api/'+task.id+'/update/status', creds, { headers: headers })
             .map(response => response.json()).subscribe(data => {
-                this.notification.show('success', 'Task '+type);
-                this.getList();
+                // this.reloadList();
+                // this.notification.show('success', 'Task '+type);
+                this.socket.emit("reloadList", {type: 'success', message: 'Task'});
         }, error => console.log('Could not create todo.'));
+    }
+    
+    updateStatus2(task, type) {
+        return new Promise(
+            function(resolve, reject) {
+                var str = '';
+                var currentStatus = task.status;
+                task.status = type;
+                Object.getOwnPropertyNames(task).forEach(function(val, idx, array) {
+                    str += val + '=' + task[val]+'&';
+                });
+                let creds = JSON.stringify(str);
+                
+                var headers = new Headers();
+                headers.append('Content-Type', 'application/x-www-form-urlencoded');
+                this.http.put(apiUrl+'/api/'+task.id+'/update/status', creds, { headers: headers })
+                    .map(response => response.json()).subscribe(data => {
+                        resolve(data);
+                }, error => console.log('Could not create todo.'));
+            }
+        );
     }
 }
