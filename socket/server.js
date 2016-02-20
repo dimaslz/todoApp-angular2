@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var nunjucks = require('nunjucks');
 var express = require('express');
 var config = require('./config');
+var fs = require('fs');
 
 var app = express();
 var http = require('http').Server(app);
@@ -34,10 +35,17 @@ io.on('connection', function(socket) {
     });
 });
 
-
-
 // redirect all outher routes to our single page application
 app.get('/*', function (req, res) {
+  // if(req.url.indexOf('.css') != -1){ //req.url has the pathname, check if it conatins '.css'
+  //   fs.readFile("./public"+req.url, function (err, data) {
+  //     if (err) console.log(err);
+  //     res.writeHead(200, {'Content-Type': 'text/css'});
+  //     res.write(data);
+  //     res.end();
+  //   });
+
+  // }
     res.render('index.html');
 });
 

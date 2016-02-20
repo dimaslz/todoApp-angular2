@@ -88,6 +88,10 @@ gulp.task('github-page', function() {
 /********************************************************************************** */
 gulp.task('copy-external-modules', function() {
     del.sync(['public/**']);
+    
+    gulp.src(['node_modules/ng2-notify/dist/css/**/*.css'])
+        .pipe(gulp.dest('public/css'));
+        
     gulp.src(['node_modules/ng2-notify/dist/**/*.js'])
         .pipe(gulp.dest('public/lib/ng2-notify'));
         
