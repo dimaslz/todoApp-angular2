@@ -87,23 +87,6 @@ var TodoService = (function () {
             _this.socket.emit("reloadList", { type: 'success', message: 'Task' });
         }, function (error) { return console.log('Could not create todo.'); });
     };
-    TodoService.prototype.updateStatus2 = function (task, type) {
-        return new Promise(function (resolve, reject) {
-            var str = '';
-            var currentStatus = task.status;
-            task.status = type;
-            Object.getOwnPropertyNames(task).forEach(function (val, idx, array) {
-                str += val + '=' + task[val] + '&';
-            });
-            var creds = JSON.stringify(str);
-            var headers = new http_1.Headers();
-            headers.append('Content-Type', 'application/x-www-form-urlencoded');
-            this.http.put(apiUrl + '/api/' + task.id + '/update/status', creds, { headers: headers })
-                .map(function (response) { return response.json(); }).subscribe(function (data) {
-                resolve(data);
-            }, function (error) { return console.log('Could not create todo.'); });
-        });
-    };
     TodoService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, notify_1.Ng2NotifyService])

@@ -18,5 +18,4 @@ export declare class TodoService {
     removeTask(task: any): void;
     reloadList(): void;
     updateStatus(task: any, type: any): void;
-    updateStatus2(task: any, type: any): Promise<{}>;
 }

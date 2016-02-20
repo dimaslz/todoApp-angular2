@@ -101,25 +101,4 @@ export class TodoService {
                 this.socket.emit("reloadList", {type: 'success', message: 'Task'});
         }, error => console.log('Could not create todo.'));
     }
-    
-    updateStatus2(task, type) {
-        return new Promise(
-            function(resolve, reject) {
-                var str = '';
-                var currentStatus = task.status;
-                task.status = type;
-                Object.getOwnPropertyNames(task).forEach(function(val, idx, array) {
-                    str += val + '=' + task[val]+'&';
-                });
-                let creds = JSON.stringify(str);
-                
-                var headers = new Headers();
-                headers.append('Content-Type', 'application/x-www-form-urlencoded');
-                this.http.put(apiUrl+'/api/'+task.id+'/update/status', creds, { headers: headers })
-                    .map(response => response.json()).subscribe(data => {
-                        resolve(data);
-                }, error => console.log('Could not create todo.'));
-            }
-        );
-    }
 }
