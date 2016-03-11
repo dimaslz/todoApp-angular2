@@ -1,3 +1,4 @@
+"use strict";
 var Task = (function () {
     function Task(id, name, description, status, date) {
         if (id === void 0) { id = ""; }
@@ -18,7 +19,7 @@ var Task = (function () {
         this.editable = !this.editable;
     };
     return Task;
-})();
+}());
 exports.Task = Task;
 
 //# sourceMappingURL=task.js.map

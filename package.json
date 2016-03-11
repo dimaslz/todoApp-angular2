@@ -17,7 +17,7 @@
   "author": "Dimas López <dimaslopezzurita@gmail.com> (http://dimaslz.io)",
   "license": "MIT",
   "dependencies": {
-    "angular2": "2.0.0-beta.7",
+    "angular2": "2.0.0-beta.9",
     "app-module-path": "^1.0.5",
     "assert": "^1.3.0",
     "body-parser": "^1.14.2",
@@ -30,7 +30,7 @@
     "http": "0.0.0",
     "mongoose": "^4.4.2",
     "mongoose-unique-validator": "^0.4.1",
-    "ng2-notify": "1.2.3",
+    "ng2-notify": "1.3.0",
     "nunjucks": "^2.3.0",
     "path": "^0.12.7",
     "reflect-metadata": "^0.1.3",
@@ -59,11 +59,6 @@
     "gulp-sass": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.11.0",
-    "merge2": "^1.0.1",
-    "typescript": "^1.7.5",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    
     "karma": "^0.13.21",
     "karma-chrome-launcher": "^0.2.2",
     "karma-coverage": "^0.5.3",
@@ -72,8 +67,13 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
+    "merge2": "^1.0.1",
     "phantomjs-polyfill": "^0.0.1",
     "phantomjs-prebuilt": "^2.1.4",
-    "protractor": "^3.1.1"
+    "protractor": "^3.1.1",
+    "typescript": "^1.7.5",
+    "typings": "^0.7.7",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

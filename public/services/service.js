@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -92,7 +93,7 @@ var TodoService = (function () {
         __metadata('design:paramtypes', [http_1.Http, notify_1.Ng2NotifyService])
     ], TodoService);
     return TodoService;
-})();
+}());
 exports.TodoService = TodoService;
 
 //# sourceMappingURL=service.js.map

@@ -1,6 +1,8 @@
 import { Task } from "../models/task";
 import { Http } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/map';
 import { Ng2NotifyService } from 'ng2-notify/notify';
 export declare class TodoService {
     private http;
